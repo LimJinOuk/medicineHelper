@@ -1,8 +1,8 @@
 package com.jinouk.medicinehelper.domain.user.service;
 
-import com.jinouk.medicinehelper.domain.user.dto.userDTO;
-import com.jinouk.medicinehelper.domain.user.entity.userEntity;
-import com.jinouk.medicinehelper.domain.user.repository.userRepo;
+import com.jinouk.medicinehelper.domain.user.dto.UserDTO;
+import com.jinouk.medicinehelper.domain.user.entity.UserEntity;
+import com.jinouk.medicinehelper.domain.user.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,30 +11,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class userService
+public class UserService
 {
-    private final userRepo userRepo;
+    private final UserRepo userRepo;
 
-    public void register(@RequestBody userDTO dto)
+    public void register(@RequestBody UserDTO dto)
     {
-        userEntity userEntity = new userEntity();
-        userEntity.dtoToEntity(dto);
+        UserEntity userentity = UserEntity.dtoToEntity(dto);
 
         System.out.println(dto);
-        userRepo.save(userEntity);
+        userRepo.save(userentity);
     }
 
-    public userDTO login(@RequestBody userDTO dto)
+    public UserDTO login(@RequestBody UserDTO dto)
     {
+
         System.out.println(dto);
-        Optional<userEntity> byName = userRepo.findByName(dto.getName());
+        System.out.println(dto.getName()); //this is not working WTF?
+        Optional<UserEntity> byName = userRepo.findByName(dto.getName());
         System.out.println(byName.isPresent());
         if(byName.isPresent())
         {
-            userEntity userEntity = byName.get();
+            UserEntity userEntity = byName.get();
             if(userEntity.getPassword().equals(dto.getPassword()))
             {
-                userDTO userDTO = new userDTO();
+                UserDTO userDTO = new UserDTO();
                 userDTO.entityToDTO(userEntity);
                 return userDTO;
             }

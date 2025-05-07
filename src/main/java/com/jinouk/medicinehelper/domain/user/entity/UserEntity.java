@@ -1,17 +1,17 @@
 package com.jinouk.medicinehelper.domain.user.entity;
 
-import com.jinouk.medicinehelper.domain.user.dto.userDTO;
+import com.jinouk.medicinehelper.domain.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity@Getter@Setter
 @Table(name = "user")
-public class userEntity
+public class UserEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column
     private String name;
@@ -22,10 +22,9 @@ public class userEntity
     @Column
     private String email;
 
-    public static userEntity dtoToEntity(userDTO dto)
+    public static UserEntity dtoToEntity(UserDTO dto)
     {
-        userEntity userEntity = new userEntity();
-        userEntity.setId(dto.getId());
+        UserEntity userEntity = new UserEntity();
         userEntity.setName(dto.getName());
         userEntity.setPassword(dto.getPassword());
         userEntity.setEmail(dto.getEmail());

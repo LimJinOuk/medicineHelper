@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* 버튼 스타일 */
+        .header-buttons button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-left: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 1rem 2rem;
+        }
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 100px;
+            padding: 2rem;
+            background-color: #f1f3f5;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h2>약정보 서비스</h2>
+    </div>
+    <div class="header-buttons">
+        <div id>
+            <span id = "login-area" style="display: none;">
+                <button onclick="location.href='/login'">로그인</button>
+                <button onclick="location.href='/register'">회원가입</button>
+            </span>
+            <span id = "user-area" style="display: none;">
+                <button onclick="location.href='/mypage'">마이페이지</button>
+                <button onclick="location.href='/logout'">로그아웃</button>
+            </span>
+        </div>
+
+
+    </div>
+</header>
+
+<nav>
+    <a href="/drug-info">약 정보 조회</a>
+    <a href="/pharmacy-search">약국 찾기</a>
+</nav>
+
+<main style="padding: 2rem;">
+    <!-- 메인 컨텐츠가 여기에 들어갑니다 -->
+</main>
+
+<footer>
+    <!-- 푸터 내용 작성 예정 -->
+</footer>
+</body>
+</html>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        fetch('/api/user/status')
+            .then(res => res.json())
+            .then(data => {
+                if (data.loggedIn) {
+                    document.getElementById('user-area').style.display = 'inline';
+                } else {
+                    document.getElementById('login-area').style.display = 'inline';
+                }
+            });
+    });
+</script>

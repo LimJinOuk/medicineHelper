@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .register-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .register-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .register-container button:hover {
+            background-color: #0056b3;
+        }
+        .register-container .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #555;
+            text-decoration: none;
+        }
+        .register-container .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <h2>회원가입</h2>
+    <form id="registerForm">
+        <input type="text" name="name" placeholder="이름" required />
+        <input type="email" name="email" placeholder="E-Mail" required />
+        <input type="password" name="password" placeholder="비밀번호" required />
+        <button type="submit">회원가입</button>
+    </form>
+    <a href="login.html" class="login-link">이미 계정이 있으신가요?</a>
+</div>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // 폼 기본 제출 막기
+
+        const formData = new FormData(this);
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+        // JSON 콘솔 출력 (디버깅용)
+        console.log("회원가입 JSON:", JSON.stringify(jsonData));
+
+        // JSON 전송 (fetch 사용)
+        fetch("doRegister", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // 응답 JSON 변환
+                } else {
+                    throw new Error("회원가입 실패");
+                }
+            })
+            .then(data => {
+                alert("회원가입 성공!");
+                console.log("서버 응답:", data);
+                // window.location.href = "/main"; // 이동 경로 설정 가능
+            })
+            .catch(error => {
+                console.error(error);
+                alert("오류 발생: " + error.message);
+            });
+    });
+</script>
+
+</body>
+</html>
