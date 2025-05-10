@@ -18,14 +18,12 @@ public class UserService
     public void register(@RequestBody UserDTO dto)
     {
         UserEntity userentity = UserEntity.dtoToEntity(dto);
-
         System.out.println(dto);
         userRepo.save(userentity);
     }
 
     public UserDTO login(@RequestBody UserDTO dto)
     {
-
         System.out.println(dto);
         System.out.println(dto.getName()); //this is not working WTF?
         Optional<UserEntity> byName = userRepo.findByName(dto.getName());
@@ -43,4 +41,5 @@ public class UserService
         }
         else {return null;}
     }
+
 }

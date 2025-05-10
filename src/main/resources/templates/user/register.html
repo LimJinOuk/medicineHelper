@@ -99,8 +99,8 @@
             })
             .then(data => {
                 alert("회원가입 성공!");
+                window.location.href = "/login"
                 console.log("서버 응답:", data);
-                // window.location.href = "/main"; // 이동 경로 설정 가능
             })
             .catch(error => {
                 console.error(error);

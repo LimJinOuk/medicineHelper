@@ -3,10 +3,13 @@ package com.jinouk.medicinehelper.domain.homeController;
 import com.jinouk.medicinehelper.domain.user.dto.UserDTO;
 import com.jinouk.medicinehelper.domain.user.entity.UserEntity;
 import com.jinouk.medicinehelper.domain.user.repository.UserRepo;
+import com.jinouk.medicinehelper.domain.user.service.CustomUserDetails;
 import com.jinouk.medicinehelper.domain.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +35,13 @@ public class HomeController
 
     @GetMapping("/mypage")
     public String getMypage(){return "user/mypage";}
+
+    @GetMapping("/mypage")
+    public ResponseEntity<?> getMyPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        int userId = userDetails.getId(); // 이게 DB의 사용자 ID
+        return ResponseEntity.ok(userId);
+    }
+
 
     @GetMapping("/api/user/status")
     public ResponseEntity<?> loginstatus(HttpSession session, Map map)
@@ -89,5 +99,14 @@ public class HomeController
             return ResponseEntity.ok().body(map);
         }
 
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // 기존 세션이 있을 때만 가져옴
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+        }
+        return "mainpage/main" ;
     }
 }
