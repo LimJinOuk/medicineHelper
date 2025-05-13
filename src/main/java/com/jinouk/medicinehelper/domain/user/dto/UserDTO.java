@@ -4,10 +4,8 @@ import com.jinouk.medicinehelper.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter@Setter
-@ToString
 @NoArgsConstructor
 public class UserDTO
 {

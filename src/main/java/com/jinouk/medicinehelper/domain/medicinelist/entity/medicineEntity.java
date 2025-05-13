@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Entity
 @Getter@Setter
-
+@Table(name = "medicinelist")
 public class medicineEntity
 {
     @Id
@@ -16,9 +16,6 @@ public class medicineEntity
 
     @Column
     private String medicineName;
-
-    @Column
-    int userId;
 
     @ManyToOne
     @JoinColumn(name = "userId" , nullable = false ,foreignKey = @ForeignKey(name = "medicinelist_ibfk_1"))
