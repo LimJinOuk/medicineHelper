@@ -1,10 +1,12 @@
 package com.jinouk.medicinehelper.domain.homeController;
 
+import com.jinouk.medicinehelper.global.jwt.jwtUtil.jwtUtil;
 import com.jinouk.medicinehelper.domain.user.dto.UserDTO;
 import com.jinouk.medicinehelper.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequiredArgsConstructor
 public class HomeController
 {
     private final UserService service;
+    private final jwtUtil jwtUtil;
+
+    @Autowired
+    public HomeController(UserService service, jwtUtil jwtUtil)
+    {
+        this.service = service;
+        this.jwtUtil = jwtUtil;
+    }
 
     @GetMapping("/")
     public String getMain(){return "mainpage/main";}
@@ -64,9 +73,22 @@ public class HomeController
     }
 
     @PostMapping("doLogin")
-    public ResponseEntity<Map<String , String>> login(@RequestBody UserDTO userDTO , HttpSession session)
+    public ResponseEntity<Map<String , String>> login(@RequestBody UserDTO userDTO)
     {
-       return service.login(userDTO , session);
+        ResponseEntity<Map<String , String>> loginresult = service.login(userDTO);
+
+        String token = jwtUtil.generateToken(userDTO.getName() , "Role_User");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        System.out.println("header : " + headers);
+        System.out.println("body : " + loginresult.getBody());
+
+        return ResponseEntity
+                .status(loginresult.getStatusCode())
+                .headers(headers)
+                .body(loginresult.getBody());
     }
 
 }

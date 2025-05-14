@@ -3,7 +3,6 @@ package com.jinouk.medicinehelper.domain.user.service;
 import com.jinouk.medicinehelper.domain.user.dto.UserDTO;
 import com.jinouk.medicinehelper.domain.user.entity.UserEntity;
 import com.jinouk.medicinehelper.domain.user.repository.UserRepo;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class UserService {
         userRepo.save(userentity);
     }
 
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserDTO userDTO, HttpSession session)
+    public ResponseEntity<Map<String, String>> login(@RequestBody UserDTO userDTO) throws IllegalArgumentException
     {
         Map<String, String> map = new HashMap<>();
 
@@ -32,15 +31,14 @@ public class UserService {
         Optional<UserEntity> byEmail = userRepo.findByEmail(userDTO.getEmail());
 
         if (byEmail.isPresent()) {
-//            userEntity = byEmail.get();
             if (byEmail.get().getPassword().equals(userDTO.getPassword())) {
-                map.put("Login Result", "Success");
-                session.setAttribute("loginUser", byEmail.get());
-            } else {
-                map.put("Login Result", "Failed");
+                map.put("Login_Result" , "Success");
+            } else 
+            {
+                throw new IllegalArgumentException("비밀번호가 조회되지 않습니다.");
             }
         } else {
-            map.put("Login Result", "There is no such user");
+            throw new IllegalArgumentException("유저 정보가 없습니다.");
         }
         return ResponseEntity.ok().body(map);
     }

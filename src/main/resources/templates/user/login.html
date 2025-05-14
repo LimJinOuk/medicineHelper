@@ -74,7 +74,8 @@
 </div>
 
 <script>
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
+  document.getElementById('loginForm').addEventListener('submit', function(e)
+  {
     e.preventDefault();
 
     const email = document.getElementById('email').value;
@@ -84,7 +85,6 @@
       email: email,
       password: password
     };
-
 
     fetch('doLogin', {
       method: 'POST',
@@ -102,7 +102,7 @@
             .then(data => {
               console.log("서버 응답:", data);
               // 로그인 성공 시 리다이렉트 등 처리
-              if(data["Login Result"] === "Success")
+              if(data["Login_Result"] === "Success")
               {
                 alert("로그인 성공")
                 window.location.href = "/"
