@@ -40,4 +40,19 @@ public class jwtUtil {
                 .signWith(getSignKey() , SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public void validateToken(String token)
+    {
+        Jwts.parser()
+                .setSigningKey(getSignKey())
+                .parseClaimsJws(token);
+    }
+
+    public String getUserName(String token)
+    {
+        return Jwts.parser()
+                .setSigningKey(getSignKey())
+                .parseClaimsJws(token)
+                .getBody().getSubject();
+    }
 }

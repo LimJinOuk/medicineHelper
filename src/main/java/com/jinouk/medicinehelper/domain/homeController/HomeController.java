@@ -39,27 +39,6 @@ public class HomeController
     @GetMapping("/mypage")
     public String getMypage(){return "user/mypage";}
 
-    @GetMapping("/api/user/status")
-    public ResponseEntity<?> loginstatus(HttpSession session)
-    {
-        Object loginUser = session.getAttribute("loginUser");
-        System.out.println(loginUser);
-        if (loginUser != null) {
-            System.out.println(Map.of("loggedIn", true));
-            return ResponseEntity.ok().body(Map.of("loggedIn", true));
-        } else {
-            return ResponseEntity.ok().body(Map.of("loggedIn", false));
-        }
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // 기존 세션이 있을 때만 가져옴
-        if (session != null) {
-            session.invalidate(); // 세션 무효화
-        }
-        return "mainpage/main" ;
-    }
 
     @PostMapping("doRegister")
     @ResponseBody
@@ -81,9 +60,6 @@ public class HomeController
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-
-        System.out.println("header : " + headers);
-        System.out.println("body : " + loginresult.getBody());
 
         return ResponseEntity
                 .status(loginresult.getStatusCode())
