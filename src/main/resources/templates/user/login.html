@@ -65,54 +65,19 @@
 <body>
 <div class="login-container">
   <h2>로그인</h2>
-  <form id="loginForm" action="doLogin" method="post">
-    <input type="text" id="email" name="email" placeholder="email" required>
-    <input type="password" id="password" name="password" placeholder="비밀번호" required>
-    <button type="submit">로그인</button>
-  </form>
+  <div id="loginForm">
+    <label for="email"></label><input type="text" id="email" name="email" placeholder="email" required>
+    <label for="password"></label><input type="password" id="password" name="password" placeholder="비밀번호" required>
+    <button
+            type="button"
+            onclick="login()"
+    >
+      로그인
+    </button>
+  </div>
   <a href="/register" class="link">계정이 없나요?</a>
 </div>
 
-<script>
-  document.getElementById('loginForm').addEventListener('submit', function(e)
-  {
-    e.preventDefault();
-
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    const jsonData = {
-      email: email,
-      password: password
-    };
-
-    fetch('doLogin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(jsonData)
-    })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error("로그인 실패");
-              }
-              return response.json();
-            })
-            .then(data => {
-              console.log("서버 응답:", data);
-              // 로그인 성공 시 리다이렉트 등 처리
-              if(data["Login_Result"] === "Success")
-              {
-                alert("로그인 성공")
-                window.location.href = "/"
-              }
-            })
-            .catch(error => {
-              console.error("에러 발생:", error);
-              alert("로그인 실패");
-            });
-  });
-</script>
+<script src = "/js/login.js"></script>
 </body>
 </html>
