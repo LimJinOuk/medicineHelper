@@ -18,10 +18,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JWTAuthFilter extends OncePerRequestFilter {
     private final jwtUtil jwtUtil;
-
     @Override
     protected void doFilterInternal (HttpServletRequest request, HttpServletResponse response , FilterChain filterChain) throws ServletException, IOException
     {
+        System.out.println(request.getRequestURL());
+        System.out.println(request.getQueryString());
 
         String Header = request.getHeader("Authorization");
         if(Header != null && Header.startsWith("Bearer "))
