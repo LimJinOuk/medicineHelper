@@ -26,9 +26,11 @@ public class HomeController
         this.service = service;
         this.jwtUtil = jwtUtil;
     }
+/*
 
     @GetMapping("/")
     public String getMain(){return "mainpage/main";}
+*/
 
     @GetMapping("/login")
     public String getLogin() {return "user/login";}

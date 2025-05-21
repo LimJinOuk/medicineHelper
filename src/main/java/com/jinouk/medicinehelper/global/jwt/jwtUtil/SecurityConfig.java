@@ -27,10 +27,11 @@ public class SecurityConfig
                                 "/login",
                                 "/register",
                                 "/DoLogin",
-                                "doRegister",
+                                "/doRegister",
                                 "/CSS/**",
                                 "/js/**",
-                                "/favicon.ico"
+                                "/favicon.ico",
+                                "/.well-known/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
